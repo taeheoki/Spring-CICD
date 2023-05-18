@@ -37,8 +37,8 @@ jobs:
         with:
           host: ${{ secrets.WAS_HOST }}
           username: ${{ secrets.WAS_USERNAME }}
-          password: ${{ secrets.WAS_PASSWORD }}
-          port: ${{ secrets.WAS_SSH_PORT }}
+          password: ${{ secrets.WAS_PRIVATE_KEY }}
+          port: ${{ secrets.WAS_PORT }}
           script: |
             docker stop $(docker ps -a -q) 
             docker rm $(docker ps -a -q) 
