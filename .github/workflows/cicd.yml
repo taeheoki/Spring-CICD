@@ -33,13 +33,14 @@ jobs:
         run: docker push taeheoki/backend_cicd
 
       - name: WAS 인스턴스 접속 및 애플리케이션 실행 # (5)
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.WAS_HOST }}
           username: ${{ secrets.WAS_USERNAME }}
           password: ${{ secrets.WAS_PRIVATE_KEY }}
           port: ${{ secrets.WAS_PORT }}
           script: |
-            docker system prune -a -f
-            docker stop container_taeheoki
-            docker run --name container_taeheoki -d --rm -p 8080:8080 taeheoki/backend_cicd:latest
+            docker stop $(docker ps -a -q) 
+            docker rm $(docker ps -a -q) 
+            docker pull taeheoki/backend_cicd
+            docker run -d -p 8080:8080 --name container_taeheoki taeheoki/backend_cicd
