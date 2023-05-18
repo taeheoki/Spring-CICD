@@ -40,6 +40,8 @@ jobs:
           password: ${{ secrets.WAS_PRIVATE_KEY }}
           port: ${{ secrets.WAS_PORT }}
           script: |
-            docker system prune -a -f
-            docker stop container_taeheoki
+            docker stop $(docker ps -a -q) 
+            docker rm $(docker ps -a -q) 
+            docker image prune -a -f
+            docker pull taeheoki/backend_cicd
             docker run -d -p 8080:8080 --name container_taeheoki taeheoki/backend_cicd
