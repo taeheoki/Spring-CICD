@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker Hub 퍼블리시 # (4)
-        run: docker push <docker_hub_username>/<image_name>
+        run: docker push taeheoki/backend_cicd
 
       - name: WAS 인스턴스 접속 및 애플리케이션 실행 # (5)
         uses: appleboy/ssh-action@v0.1.6
@@ -42,5 +42,5 @@ jobs:
           script: |
             docker stop $(docker ps -a -q) 
             docker rm $(docker ps -a -q) 
-            docker pull <docker_hub_username>/<image_name>
-            docker run -d -p 8080:8080 --name <container_name> <docker_hub_username>/<image_name>
+            docker pull taeheoki/backend_cicd
+            docker run -d -p 8080:8080 --name container_taeheoki taeheoki/backend_cicd
