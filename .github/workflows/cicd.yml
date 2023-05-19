@@ -14,18 +14,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 저장소 Checkout
-        uses: actions/checkout@v3
-      
-      - name: 스프링부트 애플리케이션 빌드
-        run: ./gradlew clean build
-
       - name: EC2 인스턴스 접속 테스트
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.WAS_HOST }}
           username: ${{ secrets.WAS_USERNAME }}
-          password: ${{ secrets.WAS_PRIVATE_KEY }}
+          key: ${{ secrets.WAS_PRIVATE_KEY }}
           port: ${{ secrets.WAS_PORT }}
           script: |
             echo "hello, world!"
